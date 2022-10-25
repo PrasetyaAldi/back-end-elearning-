@@ -12,4 +12,8 @@ class Nilaitugas extends Model
     public function bahanajar(){
         return $this->belongsTo(Bahanajar::class);
     }
+
+    public function siswa(){
+        return $this->belongsTo(Siswa::class);
+    }
 }

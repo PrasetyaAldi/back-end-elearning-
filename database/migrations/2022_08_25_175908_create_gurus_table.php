@@ -15,12 +15,13 @@ class CreateGurusTable extends Migration
     {
         Schema::create('guru', function (Blueprint $table) {
             $table->id('idguru');
-            $table->foreignId('idsekolah')->references('idsekolah')->on('sekolah')->onDelete('RESTRICT')->onUpdate('CASCADE');
-            $table->char('nip',18);
+            $table->char('npsn',8);
+            $table->foreign('npsn')->references('npsn')->on('sekolah')->onDelete('RESTRICT')->onUpdate('CASCADE');
+            $table->char('nip',18)->unique();
             $table->string('nama',255);
-            $table->string('email',100);
+            $table->string('email',100)->unique();
             $table->string('password',100);
-            $table->string('alamat',255);
+        $table->text('alamat');
             $table->timestamps();
         });
     }

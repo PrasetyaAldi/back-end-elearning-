@@ -17,4 +17,8 @@ class Pesertabelajar extends Model
         return $this->belongsTo(Kelas::class);
     }
 
+    public function periode(){
+        return $this->belongsTo(Periode::class);
+    }
+
 }

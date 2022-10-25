@@ -15,8 +15,12 @@ class CreatePesertabelajarsTable extends Migration
     {
         Schema::create('pesertabelajar', function (Blueprint $table) {
             $table->id('idpb');
-            $table->foreignId('idsiswa')->references('idsiswa')->on('siswa')->onDelete('RESTRICT')->onUpdate('CASCADE');
+            $table->char('nisn',10);
+            $table->foreign('nisn')->references('nisn')->on('siswa')->onDelete('RESTRICT')->onUpdate('CASCADE');
+            $table->char('idkelas',10);
+            $table->char('idperiode',5);
             $table->foreign('idkelas')->references('idkelas')->on('kelas')->onDelete('RESTRICT')->onUpdate('CASCADE');    
+            $table->foreign('idperiode')->references('idperiode')->on('periode')->onDelete('RESTRICT')->onUpdate('CASCADE');    
             $table->timestamps();
         });
     }

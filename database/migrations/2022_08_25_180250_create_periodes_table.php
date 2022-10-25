@@ -14,7 +14,9 @@ class CreatePeriodesTable extends Migration
     public function up()
     {
         Schema::create('periode', function (Blueprint $table) {
-            $table->id('idperiode');
+            $table->char('idperiode',5)->primary();
+            $table->char('npsn',8);
+            $table->foreign('npsn')->references('npsn')->on('sekolah')->restrictOnDelete()->cascadeOnUpdate();
             $table->string('namaperiode',100);
             $table->date('tanggalawal');
             $table->date('tanggalakhir');

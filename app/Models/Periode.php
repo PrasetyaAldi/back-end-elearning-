@@ -12,4 +12,12 @@ class Periode extends Model
     public function ruangbelajar(){
         return $this->hasMany(Ruangbelajar::class);
     }
+
+    public function pesertabelajar(){
+        return $this->hasMany(Pesertabelajar::class);
+    }
+
+    public function sekolah(){
+        return $this->belongsTo(Sekolah::class);
+    }
 }

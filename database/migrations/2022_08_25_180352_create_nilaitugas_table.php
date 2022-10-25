@@ -15,6 +15,8 @@ class CreateNilaitugasTable extends Migration
     {
         Schema::create('nilaitugas', function (Blueprint $table) {
             $table->id('idnilai');
+            $table->char('nisn',10);
+            $table->foreign('nisn')->references('nisn')->on('siswa')->restrictOnDelete()->cascadeOnUpdate();
             $table->foreignId('idbahanajar')->references('idbahanajar')->on('bahanajar')->cascadeOnUpdate()->restrictOnDelete();
             $table->integer('nangka');
             $table->char('nhuruf',1)->nullable();

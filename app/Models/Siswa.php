@@ -8,6 +8,7 @@ class Siswa extends Model
 {
     //
     protected $table = 'siswa';
+    protected $primaryKey = 'nisn';
 
     public function sekolah(){
         return $this->belongsTo(Sekolah::class);
@@ -16,4 +17,12 @@ class Siswa extends Model
     public function pesertabelajar(){
         return $this->belongsTo(Pesertabelajar::class);
     }
+
+    public function nilaitugas(){
+        return $this->hasMany(Nilaitugas::class);
+    }
+
+    // public function users(){
+    //     return $this->hasOne(User::class);
+    // }
 }

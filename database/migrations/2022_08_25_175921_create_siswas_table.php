@@ -14,11 +14,12 @@ class CreateSiswasTable extends Migration
     public function up()
     {
         Schema::create('siswa', function (Blueprint $table) {
-            $table->id('idsiswa');
-            $table->foreignId('idsekolah')->references('idsekolah')->on('sekolah')->onDelete('RESTRICT')->onUpdate('CASCADE');
-            $table->char('nisn',10);
+            $table->bigInteger('idsiswa');
+            $table->char('npsn',8);
+            $table->foreign('npsn')->references('npsn')->on('sekolah')->onDelete('RESTRICT')->onUpdate('CASCADE');
+            $table->char('nisn',10)->primary();
             $table->string('nama',255);
-            $table->string('email',100);
+            $table->string('email',100)->unique();
             $table->string('password',100);
             $table->timestamps();
         });

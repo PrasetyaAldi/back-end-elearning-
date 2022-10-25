@@ -16,4 +16,8 @@ class Guru extends Model
     public function ruangbelajar(){
         return $this->hasMany(Ruangbelajar::class);
     }
+
+    // public function users(){
+    //     return $this->hasOne(User::class);
+    // }
 }
