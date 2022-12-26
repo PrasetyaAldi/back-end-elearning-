@@ -14,14 +14,12 @@ class CreateGurusTable extends Migration
     public function up()
     {
         Schema::create('guru', function (Blueprint $table) {
-            $table->id('idguru');
-            $table->char('npsn',8);
+            $table->string('idguru', 9)->primary();
+            $table->char('npsn', 8);
             $table->foreign('npsn')->references('npsn')->on('sekolah')->onDelete('RESTRICT')->onUpdate('CASCADE');
-            $table->char('nip',18)->unique();
-            $table->string('nama',255);
-            $table->string('email',100)->unique();
-            $table->string('password',100);
-        $table->text('alamat');
+            $table->char('nip', 18)->unique()->nullable();
+            $table->string('nama', 255);
+            $table->text('alamat')->nullable();
             $table->timestamps();
         });
     }

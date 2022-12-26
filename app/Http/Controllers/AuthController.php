@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Guru;
+use App\Models\Sekolah;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
@@ -17,8 +20,8 @@ class AuthController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'email' => 'required|min:4',
-                'password' => 'required|min:6'
+                'email' => 'required',
+                'password' => 'required|min:8'
             ],
             [
                 'required'  => ':attribute harus diisi',
@@ -27,52 +30,61 @@ class AuthController extends Controller
         );
 
         if ($validator->fails()) {
-            $resp = [
-                'metadata' => [
-                    'message' => $validator->errors()->first(),
-                    'code'    => 422
-                ]
-            ];
-            return response()->json($resp, 422);
-            die();
+            return response()->json([
+                'success' => false,
+                'message' => 'periksa spesifikasi API',
+                'data' => $validator->errors()
+            ], 422);
         }
 
         $user = User::where('email', $request->email)->first();
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
-
-                $token = Auth::login($user);
-                $resp = [
-                    'response' => [
-                        'token' => $token
-                    ],
-                    'metadata' => [
-                        'message' => 'OK',
-                        'code'    => 200
-                    ]
+                $credential = $request->only('email', 'password');
+                $data = [
+                    'id' => $user->user_id,
+                    'email' => $user->email,
+                    'role' => $user->role,
                 ];
 
-                return response()->json($resp);
+                if ($user->role == 'admin') {
+                    $sekolah = Sekolah::where('npsn', $user->user_id)->first();
+                    $data['kodesekolah'] = $sekolah->kodesekolah;
+                } elseif ($user->role == 'guru') {
+                    $idguru = str_replace(' ', '', $user->user_id);
+                    $guru = Guru::where('idguru', $idguru)->first();
+                    $data['idguru'] = $guru->idguru;
+                }
+
+                if (!$token = JWTAuth::claims($data)->attempt($credential)) {
+                    return response()->json(['error' => 'Unauthorized'], 401);
+                }
+                return $this->respondWithToken($token);
             } else {
 
-                $resp = [
-                    'metadata' => [
-                        'message' => 'email Atau Password Tidak Sesuai',
-                        'code'    => 401
-                    ]
-                ];
-
-                return response()->json($resp, 401);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'password yang anda masukkan salah',
+                    'data' => ''
+                ], 401);
             }
         } else {
-            $resp = [
-                'metadata' => [
-                    'message' => 'Email tidak terdaftar',
-                    'code'    => 401
-                ]
-            ];
-
-            return response()->json($resp, 401);
+            return response()->json([
+                'success' => false,
+                'message' => 'Email anda belum terdaftar.',
+                'data' => ''
+            ], 401);
         }
+    }
+
+    /**
+     * response with token
+     */
+    protected function respondWithToken($token)
+    {
+        return response()->json([
+            'token_type' => 'bearer',
+            'access_token' => $token,
+        ]);
     }
 }

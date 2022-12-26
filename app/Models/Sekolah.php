@@ -9,16 +9,20 @@ class Sekolah extends Model
     //
     protected $table = 'sekolah';
     protected $primaryKey = 'npsn';
-    protected $guarded = ['idsekolah'];
+    protected $fillable = [
+        'npsn', 'nama', 'alamat', 'kodesekolah'
+    ];
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     public function guru()
     {
-        return $this->hasMany(Guru::class);
+        return $this->hasMany(Guru::class, 'npsn', 'npsn');
     }
 
     public function siswa()
     {
-        return $this->hasMany(Siswa::class);
+        return $this->hasMany(Siswa::class, 'npsn', 'npsn');
     }
 
     public function kelas()
@@ -35,8 +39,4 @@ class Sekolah extends Model
     {
         return $this->hasMany(Periode::class);
     }
-
-    // public function users(){
-    //     return $this->belongsTo(User::class);
-    // }
 }

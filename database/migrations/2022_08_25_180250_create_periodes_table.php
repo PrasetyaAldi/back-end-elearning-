@@ -14,13 +14,13 @@ class CreatePeriodesTable extends Migration
     public function up()
     {
         Schema::create('periode', function (Blueprint $table) {
-            $table->char('idperiode',5)->primary();
-            $table->char('npsn',8);
+            $table->char('idperiode', 12)->primary();
+            $table->char('npsn', 8);
             $table->foreign('npsn')->references('npsn')->on('sekolah')->restrictOnDelete()->cascadeOnUpdate();
-            $table->string('namaperiode',100);
+            $table->string('namaperiode', 100);
             $table->date('tanggalawal');
             $table->date('tanggalakhir');
-            $table->char('isaktif',1)->default('1');
+            $table->char('isaktif', 1)->default('1');
             $table->timestamps();
         });
     }

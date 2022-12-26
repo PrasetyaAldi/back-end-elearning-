@@ -16,8 +16,10 @@ class CreateBahanajarsTable extends Migration
         Schema::create('bahanajar', function (Blueprint $table) {
             $table->id('idbahanajar');
             $table->foreignId('idrb')->references('idrb')->on('ruangbelajar')->restrictOnDelete()->cascadeOnUpdate();
-            $table->string('namafile',100);
-            $table->char('istugas',1);
+            $table->string('namafile', 100)->nullable();
+            $table->char('istugas', 1);
+            $table->string('file')->nullable();
+            $table->date('deadline')->nullable();
             $table->text('deskripsi');
             $table->timestamps();
         });

@@ -14,14 +14,10 @@ class CreateSekolahsTable extends Migration
     public function up()
     {
         Schema::create('sekolah', function (Blueprint $table) {
-            $table->bigInteger('idsekolah', true);
             $table->char('npsn', 8)->primary();
             $table->string('nama', 255);
-            $table->string('email', 100)->unique();
-            $table->string('password', 100);
             $table->text('alamat');
             $table->char('kodesekolah', 6);
-            $table->dropPrimary('sekolah_idsekolah_primary');
             $table->timestamps();
         });
     }

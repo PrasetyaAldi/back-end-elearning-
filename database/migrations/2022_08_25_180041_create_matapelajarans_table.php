@@ -14,8 +14,8 @@ class CreateMatapelajaransTable extends Migration
     public function up()
     {
         Schema::create('matapelajaran', function (Blueprint $table) {
-            $table->char('idmp',10)->primary();
-            $table->char('npsn',8);
+            $table->char('idmp', 10)->primary();
+            $table->char('npsn', 8);
             $table->foreign('npsn')->references('npsn')->on('sekolah')->onDelete('RESTRICT')->onUpdate('CASCADE');
             $table->string('namamp');
             $table->timestamps();

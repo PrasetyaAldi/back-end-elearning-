@@ -14,10 +14,10 @@ class CreateKelasTable extends Migration
     public function up()
     {
         Schema::create('kelas', function (Blueprint $table) {
-            $table->char('idkelas',10)->primary();
-            $table->char('npsn',8);
+            $table->char('idkelas', 12)->primary();
+            $table->char('npsn', 8);
             $table->foreign('npsn')->references('npsn')->on('sekolah')->onDelete('RESTRICT')->onUpdate('CASCADE');
-            $table->string('namakelas',100);
+            $table->string('namakelas', 100);
             $table->timestamps();
         });
     }

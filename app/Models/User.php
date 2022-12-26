@@ -20,8 +20,14 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
-        'name', 'email',
+        'user_id', 'password', 'email', 'role'
     ];
+    /**
+     * set primary key
+     */
+    protected $primaryKey = 'user_id';
+
+    protected $keyType = 'string';
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -31,6 +37,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $hidden = [
         'password',
     ];
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -43,16 +50,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      */
     public function getJWTCustomClaims()
     {
-        return [];
+        return [
+            'id' => $this->id
+        ];
     }
-
-    // public function sekolah(){
-    //     return $this->hasOne(Sekolah::class);
-    // }
-    // public function guru(){
-    //     return $this->belongsTo(Guru::class);
-    // }
-    // public function siswa(){
-    //     return $this->belongsTo(Siswa::class);
-    // }
 }

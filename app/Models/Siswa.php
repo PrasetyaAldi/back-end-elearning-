@@ -9,20 +9,23 @@ class Siswa extends Model
     //
     protected $table = 'siswa';
     protected $primaryKey = 'nisn';
+    protected $guarded = [];
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $hidden = ['password'];
 
-    public function sekolah(){
-        return $this->belongsTo(Sekolah::class);
+    public function sekolah()
+    {
+        return $this->belongsTo(Sekolah::class, 'npsn', 'npsn');
     }
 
-    public function pesertabelajar(){
-        return $this->belongsTo(Pesertabelajar::class);
+    public function pesertabelajar()
+    {
+        return $this->belongsTo(Pesertabelajar::class, 'nisn', 'nisn');
     }
 
-    public function nilaitugas(){
-        return $this->hasMany(Nilaitugas::class);
+    public function nilaitugas()
+    {
+        return $this->hasMany(Nilaitugas::class, 'nisn', 'nisn');
     }
-
-    // public function users(){
-    //     return $this->hasOne(User::class);
-    // }
 }

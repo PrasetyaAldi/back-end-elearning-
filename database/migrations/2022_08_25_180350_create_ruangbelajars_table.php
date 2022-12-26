@@ -15,15 +15,16 @@ class CreateRuangbelajarsTable extends Migration
     {
         Schema::create('ruangbelajar', function (Blueprint $table) {
             $table->id('idrb');
-            $table->char('idkelas',10);
-            $table->char('idperiode',5);
-            $table->char('idmp',10);
+            $table->char('idkelas', 12);
             $table->foreign('idkelas')->references('idkelas')->on('kelas')->onDelete('RESTRICT')->onUpdate('CASCADE');
+            $table->char('idperiode', 12);
+            $table->char('idmp', 10);
+            $table->char('idguru', 9);
             $table->foreign('idmp')->references('idmp')->on('matapelajaran')->onDelete('RESTRICT')->onUpdate('CASCADE');
             $table->foreign('idperiode')->references('idperiode')->on('periode')->onDelete('RESTRICT')->onUpdate('CASCADE');
-            $table->foreignId('idguru')->references('idguru')->on('guru')->onDelete('RESTRICT')->onUpdate('CASCADE');
-            $table->string('namarb',100);
-            $table->char('koderb',6);
+            $table->foreign('idguru')->references('idguru')->on('guru')->onDelete('RESTRICT')->onUpdate('CASCADE');
+            $table->string('namarb', 100);
+            $table->char('koderb', 6);
             $table->timestamps();
         });
     }
