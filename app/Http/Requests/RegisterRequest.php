@@ -30,8 +30,33 @@ class RegisterRequest extends FormRequest
             'npsn' => 'max:8',
             'nip' => 'max:18|unique:guru',
             'nisn' => 'max:10|unique:siswa',
-            'kodesekolah' => 'max:6',
+            'kodesekolah' => 'exists:sekolah,kodesekolah|max:6',
             'alamat' => 'required',
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    protected function messages(): array
+    {
+        return [
+            'nama.required' => 'Nama tidak boleh kosong',
+            'email.required' => 'Email tidak boleh kosong',
+            'email.email' => 'Email tidak valid',
+            'email.unique' => 'Email sudah terdaftar',
+            'password.required' => 'Password tidak boleh kosong',
+            'password.min' => 'Password minimal 6 karakter',
+            'npsn.max' => 'NPSN maksimal 8 karakter',
+            'nip.max' => 'NIP maksimal 18 karakter',
+            'nip.unique' => 'NIP sudah terdaftar',
+            'nisn.max' => 'NISN maksimal 10 karakter',
+            'nisn.unique' => 'NISN sudah terdaftar',
+            'kodesekolah.exists' => 'Kode sekolah tidak ditemukan',
+            'kodesekolah.max' => 'Kode sekolah maksimal 6 karakter',
+            'alamat.required' => 'Alamat tidak boleh kosong',
         ];
     }
 }
