@@ -27,4 +27,9 @@ class Periode extends Model
     {
         return $this->belongsTo(Sekolah::class);
     }
+
+    public function siswa()
+    {
+        return $this->belongsToMany(Siswa::class, 'pesertabelajar', 'idperiode', 'nisn');
+    }
 }

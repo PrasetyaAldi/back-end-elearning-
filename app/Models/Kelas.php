@@ -31,4 +31,9 @@ class Kelas extends Model
     {
         return $this->hasMany(Ruangbelajar::class, 'idkelas');
     }
+
+    public function siswa()
+    {
+        return $this->belongsToMany(Siswa::class, 'pesertabelajar', 'idkelas', 'nisn');
+    }
 }

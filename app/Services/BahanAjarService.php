@@ -67,10 +67,15 @@ class BahanAjarService
     public function getMateriGuru($idguru)
     {
         try {
-            $bahanajar = Bahanajar::with(['ruangbelajar' => function ($query) use ($idguru) {
-                $query->with(['guru']);
+            $ruangbelajar = Ruangbelajar::where('idguru', $idguru)->get();
+            $bahanajar = Bahanajar::with(['nilaitugas' => function ($query) use ($idguru) {
+                $query->with(['siswa']);
                 $query->where('idguru', $idguru);
-            }])->limit(100)->orderBy('bahanajar.created_at', 'desc')->get();
+            }])->whereIn('idrb', $ruangbelajar->pluck('idrb'))->limit(100)->orderBy('bahanajar.created_at', 'desc')->get();
+            // $bahanajar = Bahanajar::with(['ruangbelajar' => function ($query) use ($idguru) {
+            //     $query->with(['guru']);
+            //     $query->where('idguru', $idguru);
+            // }])->limit(100)->orderBy('bahanajar.created_at', 'desc')->get();
             return response()->json([
                 'status' => 'success',
                 'message' => 'Data materi berhasil didapatkan',

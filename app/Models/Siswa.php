@@ -28,4 +28,14 @@ class Siswa extends Model
     {
         return $this->hasMany(Nilaitugas::class, 'nisn', 'nisn');
     }
+
+    public function kelas()
+    {
+        return $this->belongsToMany(Kelas::class, 'pesertabelajar', 'nisn', 'idkelas');
+    }
+
+    public function periode()
+    {
+        return $this->belongsToMany(Periode::class, 'pesertabelajar', 'nisn', 'idperiode');
+    }
 }

@@ -50,13 +50,7 @@ class RuangBelajarService
     public function getRuangBelajar($kodesekolah)
     {
         try {
-            $ruangbelajar = Ruangbelajar::with(['periode', 'kelas' => ['pesertabelajar' => function ($q) use ($kodesekolah) {
-                $q->leftJoin('ruangbelajar as r', function ($join) {
-                    $join->on('r.idkelas', '=', 'pesertabelajar.idkelas');
-                    $join->on('r.idperiode', '=', 'pesertabelajar.idperiode');
-                });
-                $q->where('pesertabelajar.idkelas', 'ilike', '%' . $kodesekolah . '%');
-            }]])
+            $ruangbelajar = Ruangbelajar::with(['periode' => ['siswa'], 'kelas' => ['siswa']])
                 ->where('idkelas', 'ilike', '%' . $kodesekolah . '%')->orderBy('created_at', 'desc')->get();
             $data = [];
             foreach ($ruangbelajar as $rb) {
@@ -144,12 +138,13 @@ class RuangBelajarService
             foreach ($guru as $g) {
                 $dataRb[] = $g->idkelas;
             }
-            $kelas = Ruangbelajar::with(['bahanajar', 'kelas' => ['pesertabelajar' => function ($query)  use ($dataRb) {
-                $query->leftJoin('ruangbelajar as r', function ($join) {
-                    $join->on('r.idkelas', '=', 'pesertabelajar.idkelas');
-                    $join->on('r.idperiode', '=', 'pesertabelajar.idperiode');
-                });
-            }], 'periode'])->whereIn('idkelas', $dataRb)->orderBy('created_at', 'desc')->get();
+            $kelas = Ruangbelajar::with(['kelas' => ['siswa'], 'periode'])->where('idguru', $idguru)->orderBy('created_at', 'desc')->get();
+            // $kelas = Ruangbelajar::with(['bahanajar', 'kelas' => ['pesertabelajar' => function ($query)  use ($dataRb) {
+            //     $query->leftJoin('ruangbelajar as r', function ($join) {
+            //         $join->on('r.idkelas', '=', 'pesertabelajar.idkelas');
+            //         $join->on('r.idperiode', '=', 'pesertabelajar.idperiode');
+            //     });
+            // }], 'periode'])->whereIn('idkelas', $dataRb)->orderBy('created_at', 'desc')->get();
             $data = [];
             foreach ($kelas as $k) {
                 $data[] = [
