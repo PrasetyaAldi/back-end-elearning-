@@ -16,6 +16,7 @@ class BahanAjarService
     public function store($request)
     {
         try {
+            $filename = null;
             if ($request->namafile) {
                 $filename = date('YmdHis') . '.' . $request->namafile->extension();
                 $request->namafile->move('uploads', $filename);
@@ -68,9 +69,8 @@ class BahanAjarService
     {
         try {
             $ruangbelajar = Ruangbelajar::where('idguru', $idguru)->get();
-            $bahanajar = Bahanajar::with(['nilaitugas' => function ($query) use ($idguru) {
-                $query->with(['siswa']);
-                $query->where('idguru', $idguru);
+            $bahanajar = Bahanajar::with(['ruangbelajar' => function ($query) use ($idguru) {
+                $query->with(['guru']);
             }])->whereIn('idrb', $ruangbelajar->pluck('idrb'))->limit(100)->orderBy('bahanajar.created_at', 'desc')->get();
             // $bahanajar = Bahanajar::with(['ruangbelajar' => function ($query) use ($idguru) {
             //     $query->with(['guru']);
