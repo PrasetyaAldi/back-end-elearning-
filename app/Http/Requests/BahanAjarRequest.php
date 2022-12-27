@@ -48,7 +48,6 @@ class BahanAjarRequest extends FormRequest
         return [
             'idrb.required' => 'Ruang Belajar tidak boleh kosong',
             'idrb.exists' => 'Ruang Belajar tidak ditemukan',
-            'namafile.required' => 'Nama File tidak boleh kosong',
             'istugas.required' => 'Tugas tidak boleh kosong',
             'istugas.in' => 'Tugas tidak valid',
             'deskripsi.required' => 'Deskripsi tidak boleh kosong',
