@@ -77,6 +77,9 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->get('/downloadjawaban/{idnilai}', 'NilaiTugasController@downloadJawaban');
         // update nilai siswa
         $router->put('/updatenilaisiswa/{idnilai}', 'NilaiTugasController@updateNilai');
+
+        // logout
+        $router->get('/logout', 'AuthController@logout');
     });
 });
 // kelas

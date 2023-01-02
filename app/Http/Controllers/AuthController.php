@@ -87,4 +87,17 @@ class AuthController extends Controller
             'access_token' => $token,
         ]);
     }
+
+    /**
+     * logout
+     */
+    public function logout()
+    {
+        Auth::logout();
+        return response()->json([
+            'success' => true,
+            'message' => 'logout berhasil',
+            'data' => ''
+        ], 200);
+    }
 }
